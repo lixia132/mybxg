@@ -48,10 +48,10 @@ define(['jquery','template','bootstrap'],function($,template){
 					success:function(data){
 						var html=template('modalTpl',data.result);
 						$('#modalInfo').html(html);
-						$('#teacherModal').modal();
+						$('#teacherModel').modal();
 					}
-				})
-			})
+				});
+			});
 		}
 	});
 });
