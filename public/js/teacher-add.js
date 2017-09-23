@@ -1,4 +1,4 @@
-define(['jquery','template','util','datepicker','language'],function($,template,util){
+define(['jquery','template','util','datepicker','language','validate','form'],function($,template,util){
   var tcId=util.qs('tc_id');
   if(tcId){
     $.ajax({
@@ -21,23 +21,54 @@ define(['jquery','template','util','datepicker','language'],function($,template,
     submitForm('/api/teacher/add');
 
   }
-  //实现表单提交
+  //采用表单验证和提交插件提交表单
   function submitForm(url){
-    $('#teacherBtn').click(function(){
-        $.ajax({
-          type:'post',
-          url:url,
-          data:$('#teacherForm').serialize(),
-          dataType:'json',
-          success:function(data){
-            if(data.code==200){
-              location.href='/teacher/list';
+      $('#teacherForm').validate({
+        sendForm:false,
+        valid:function(){
+          $(this).ajaxSubmit({
+            type:'post',
+            url:url,
+            dataType:'json',
+            success:function(data){
+              if(data.code==200){
+               location.href='/teacher/list';
             }
           }
-        })
-    });
-
-  
- 
+        });
+      },
+        description : {
+          tcName :{
+            required:'用户名不能为空',
+          },
+          tcPass:{
+            required:'密码不能为空',
+            pattern:'密码必须为6位数字',
+          },
+          tcJoinDate :{
+            required:'日期不能为空',
+          }
+        }
+      })
   }
+  //实现表单提交
+  // function (url){
+  //   $('#teacherBtn').click(function(){
+  //       $.ajax({
+  //         type:'post',
+  //         url:url,
+  //         data:$('#teacherForm').serialize(),
+  //         dataType:'json',
+  //         success:function(data){
+  //           if(data.code==200){
+  //             location.href='/teacher/list';
+  //           }
+  //         }
+  //       })
+  //   });
+  // }
+
+
+
+
 });
