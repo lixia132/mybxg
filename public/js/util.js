@@ -15,6 +15,10 @@ define(['jquery'],function($){
         });
       }
       return result;
+    },
+    setMenu:function(path){
+      $('.aside .navs a[href="'+path+'"]').addClass('active').closest('ul').show();
     }
+    
   }
 });
